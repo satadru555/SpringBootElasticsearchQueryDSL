@@ -67,6 +67,35 @@ public class ProductController {
         }
         return listOfProducts;
     }
+    
+    @GetMapping("/boolQuery/{productName}/{qty}")
+    public List<Product> boolQuery(@PathVariable String productName, @PathVariable Integer qty) throws IOException {
+
+        SearchResponse<Product> searchResponse =  elasticSearchService.boolQueryImpl(productName,qty);
+        System.out.println(searchResponse.hits().hits().toString());
+
+        List<Hit<Product>> listOfHits= searchResponse.hits().hits();
+        List<Product> listOfProducts  = new ArrayList<>();
+        for(Hit<Product> hit : listOfHits){
+            listOfProducts.add(hit.source());
+        }
+        return listOfProducts;
+    }
+    
+    
+    
+    @GetMapping("/fuzzySearch/{approximateProductName}")
+    List<Product> fuzzySearch( @PathVariable String approximateProductName ) throws IOException {
+        SearchResponse<Product> searchResponse = elasticSearchService.fuzzySearch(approximateProductName);
+       List<Hit<Product>> hitList = searchResponse.hits().hits();
+        System.out.println(hitList);
+        List<Product> productList = new ArrayList<>();
+        for(Hit<Product> hit :hitList){
+            productList.add(hit.source());
+        }
+        return productList;
+    }
+
 
 
 

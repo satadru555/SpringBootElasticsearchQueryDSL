@@ -41,4 +41,21 @@ public class ElasticSearchService {
         System.out.println("elasticsearch query is "+supplier.get().toString());
         return searchResponse;
     }
+    
+  //matchProductWithName and quantity
+    public SearchResponse<Product> boolQueryImpl(String productName, Integer qty) throws IOException {
+        Supplier<Query> supplier  = ElasticSearchUtil.supplierQueryForBoolQuery(productName, qty);
+        SearchResponse<Product> searchResponse = elasticsearchClient.search(s->s.index("products").query(supplier.get()),Product.class);
+        System.out.println("elasticsearch query is "+supplier.get().toString());
+        return searchResponse;
+    }
+    
+    // fuzzysearch for name
+    public SearchResponse<Product> fuzzySearch(String approximateProductName) throws IOException {
+        Supplier<Query>  supplier = ElasticSearchUtil.createSupplierQuery(approximateProductName);
+       SearchResponse<Product> response = elasticsearchClient
+               .search(s->s.index("products").query(supplier.get()),Product.class);
+        System.out.println("elasticsearch supplier fuzzy query "+supplier.get().toString());
+        return response;
+    }
 }
