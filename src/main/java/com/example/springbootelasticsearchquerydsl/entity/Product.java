@@ -1,5 +1,6 @@
 package com.example.springbootelasticsearchquerydsl.entity;
 
+import com.example.springbootelasticsearchquerydsl.dto.Addresses;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -12,6 +13,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -21,10 +24,10 @@ public class Product {
     private int id;
     private String name;
     private String description;
-
     private int quantity;
-
     private double price;
+
+	private List<Addresses> addresses;
 
 	public int getId() {
 		return id;
@@ -65,7 +68,13 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-    
-    
-    
+
+
+	public List<Addresses> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Addresses> addresses) {
+		this.addresses = addresses;
+	}
 }

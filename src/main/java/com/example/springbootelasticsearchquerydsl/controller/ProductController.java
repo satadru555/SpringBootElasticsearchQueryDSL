@@ -68,19 +68,19 @@ public class ProductController {
         return listOfProducts;
     }
     
-    @GetMapping("/boolQuery/{productName}/{qty}")
-    public List<Product> boolQuery(@PathVariable String productName, @PathVariable Integer qty) throws IOException {
-
-        SearchResponse<Product> searchResponse =  elasticSearchService.boolQueryImpl(productName,qty);
-        System.out.println(searchResponse.hits().hits().toString());
-
-        List<Hit<Product>> listOfHits= searchResponse.hits().hits();
-        List<Product> listOfProducts  = new ArrayList<>();
-        for(Hit<Product> hit : listOfHits){
-            listOfProducts.add(hit.source());
-        }
-        return listOfProducts;
-    }
+//    @GetMapping("/boolQuery/{productName}/{qty}")
+//    public List<Product> boolQuery(@PathVariable String productName, @PathVariable Integer qty) throws IOException {
+//
+//        SearchResponse<Product> searchResponse =  elasticSearchService.boolQueryImpl(productName,qty);
+//        System.out.println(searchResponse.hits().hits().toString());
+//
+//        List<Hit<Product>> listOfHits= searchResponse.hits().hits();
+//        List<Product> listOfProducts  = new ArrayList<>();
+//        for(Hit<Product> hit : listOfHits){
+//            listOfProducts.add(hit.source());
+//        }
+//        return listOfProducts;
+//    }
     
     
     
@@ -97,6 +97,15 @@ public class ProductController {
     }
 
 
+    @GetMapping("/boolQuery/{productName}/{description}")
+    public List<Product> boolQueryTemplate(@PathVariable String productName, @PathVariable String description) throws IOException {
+   return elasticSearchService.boolQueryTemplate(productName,description);
+    }
 
+
+    @GetMapping("/boolQueryNested/{productName}/{description}")
+    public List<Product> boolQueryTemplateNested(@PathVariable String productName, @PathVariable String description) throws IOException {
+        return elasticSearchService.boolQueryTemplateNested(productName,description);
+    }
 
 }

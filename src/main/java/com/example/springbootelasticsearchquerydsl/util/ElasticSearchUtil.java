@@ -1,17 +1,16 @@
 package com.example.springbootelasticsearchquerydsl.util;
 
-import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.FuzzyQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchAllQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
-import co.elastic.clients.elasticsearch._types.query_dsl.Query;
-import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.*;
+
+
 import lombok.val;
+
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import static co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders.match;
 
 
 public class ElasticSearchUtil {
@@ -79,7 +78,16 @@ public class ElasticSearchUtil {
         return  new FuzzyQuery.Builder().field("name").value(approximateProductName).build();
 
     }
-    
+
+
+    private static Query createBoolQuery(String name, String description,String addressOrder,String countrycode){
+
+        var criteria = QueryBuilders.bool(builder -> builder.must(
+                match(queryName -> queryName.field("name").query(name)),
+                match(queryDescription -> queryDescription.field("description").query(description))
+        ));
+        return criteria;
+    }
     
     
     
