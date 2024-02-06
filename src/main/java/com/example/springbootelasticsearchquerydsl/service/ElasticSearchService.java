@@ -87,7 +87,6 @@ public class ElasticSearchService {
 
     public List<Product> boolQueryTemplateNested(String name, String description) throws IOException {
 
-
 //        QueryBuilders.bool().must(nested("XX", QueryBuilders.bool(builder -> builder.must(
 //                match(queryName -> queryName.field("name").query(name)));
 
